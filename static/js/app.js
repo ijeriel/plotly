@@ -3,7 +3,7 @@ function horizontalBarChart(sample) {
 
     //Get data from samples.json
     d3.json('samples.json').then((data) => {
-        // console.log(data);
+        console.log(data);
 
         var samples = data.samples;
         var resultarray = samples.filter(sampleobject => sampleobject.id == sample);
@@ -14,10 +14,10 @@ function horizontalBarChart(sample) {
         var labels = result.otu_labels;
 
         var trace1 = {
-            x: values,
-            y: ids,
+            x: values.slice(0,10).reverse(),
+            y: ids.slice(0,10).map(otuID => `OTU ${otuID}`),
             type: "bar",
-            text:labels,
+            text:labels.slice(0,10).reverse(),
             orientation: "h"
         };
 
@@ -25,11 +25,12 @@ function horizontalBarChart(sample) {
 
         var barLayout = {
             title: "Top 10 OTUs",
-            xaxis: {title: "OTU IDs"},
-            yaxis: {title: "Sample Values"}
+            xaxis: {title: "Sample Values"},
+            yaxis: {title: "OTU IDs"}
         }
 
-        Plotly.newPlot("plot", barData, barLayout);
+        Plotly.newPlot("bar", barData, barLayout);
+      
     });
 };
-
+horizontalBarChart(940)
