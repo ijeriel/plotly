@@ -6,7 +6,7 @@ function horizontalBarChart(sample) {
         console.log(data);
 
         var samples = data.samples;
-        var resultarray = samples.filter(sampleobject => sampleobject.id == sample);
+        var resultarray = samples.filter(sampleObject => sampleObject.id == sample);
         var result = resultarray[0]
 
         var values = result.sample_values;
@@ -33,7 +33,7 @@ function horizontalBarChart(sample) {
       
     });
 };
-horizontalBarChart(940)
+// horizontalBarChart(940)
 
 //Function to build bubble chart
 function bubbleChart(sample) {
@@ -41,7 +41,7 @@ function bubbleChart(sample) {
     d3.json('samples.json').then((data) => {
 
         var samples = data.samples;
-        var resultarray = samples.filter(sampleobject => sampleobject.id == sample);
+        var resultarray = samples.filter(sampleObject => sampleObject.id == sample);
         var result= resultarray[0]
 
         var ids = result.otu_ids;
@@ -69,3 +69,19 @@ function bubbleChart(sample) {
     });
 };
 bubbleChart(940)
+
+//Get demographic info
+function getMetadata(sample) {
+    d3.json('samples.json').then((data) => {
+        var metadata = data.metadata;
+        var sampleValues = metadata.filter(object => object.id == sample);
+        var demographicInfo = sampleValues[0];
+        var panel = d3.select("sample-metadata");
+
+        Panel.html("");
+        Object.entries(demographicInfo).forEach(([key, value]) => {
+            Panel.append("h6").text(key.toUpperCase() + ': ' + value);
+        })
+    });
+}
+
