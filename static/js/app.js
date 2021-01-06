@@ -29,8 +29,43 @@ function horizontalBarChart(sample) {
             yaxis: {title: "OTU IDs"}
         }
 
-        Plotly.newPlot("bar", barData, barLayout);
+        Plotly.plot("bar", barData, barLayout);
       
     });
 };
 horizontalBarChart(940)
+
+//Function to build bubble chart
+function bubbleChart(sample) {
+
+    d3.json('samples.json').then((data) => {
+
+        var samples = data.samples;
+        var resultarray = samples.filter(sampleobject => sampleobject.id == sample);
+        var result= resultarray[0]
+
+        var ids = result.otu_ids;
+        var labels = result.otu_labels;
+        var values = result.sample_values;
+
+        var trace2 = [
+        {
+            x: ids,
+            y: values,
+            text: labels,
+            mode: "markers",
+            marker: {
+                color: ids,
+                size: values
+            }
+        }
+        ];
+        var bubbleLayout = {
+            xaxis: {title: "OTU ID"},
+            hovermode: "closest"
+        };
+
+        Plotly.newPlot("bubble", trace2, bubbleLayout);
+    });
+};
+bubbleChart(940)
