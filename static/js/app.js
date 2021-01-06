@@ -85,3 +85,25 @@ function getMetadata(sample) {
     });
 }
 
+//Drop down selector
+function init() {
+    var selector = d3.select("#selDataset");
+
+    d3.json("samples.json").then((data) => {
+        var idNames = data.names;
+        idNames.forEach((sample) => {
+            selector
+                .append("option")
+                .text(sample)
+                .property("value", sample);        
+        });
+
+
+        const firstName = idNames[0];
+        horizontalBarChart(firstName);
+        bubbleChart(firstName);
+        getMetadata(firstName);
+    });
+}
+
+init();
