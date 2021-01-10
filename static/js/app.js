@@ -29,7 +29,7 @@ function horizontalBarChart(sample) {
             yaxis: {title: "OTU IDs"}
         }
 
-        Plotly.plot("bar", barData, barLayout);
+        Plotly.newPlot("bar", barData, barLayout);
         // Plotly.restyle("bar", barData, barLayout);
       
     });
@@ -66,7 +66,7 @@ function bubbleChart(sample) {
             hovermode: "closest"
         };
 
-        Plotly.plot("bubble", trace2, bubbleLayout);
+        Plotly.newPlot("bubble", trace2, bubbleLayout);
         // Plotly.restyle("bubble", trace2, bubbleLayout);
     });
 };
