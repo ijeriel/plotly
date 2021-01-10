@@ -3,7 +3,7 @@ function horizontalBarChart(sample) {
 
     //Get data from samples.json
     d3.json('samples.json').then((data) => {
-        console.log(data);
+        // console.log(data);
 
         var samples = data.samples;
         var resultarray = samples.filter(sampleObject => sampleObject.id == sample);
@@ -30,6 +30,7 @@ function horizontalBarChart(sample) {
         }
 
         Plotly.plot("bar", barData, barLayout);
+        // Plotly.restyle("bar", barData, barLayout);
       
     });
 };
@@ -65,10 +66,11 @@ function bubbleChart(sample) {
             hovermode: "closest"
         };
 
-        Plotly.newPlot("bubble", trace2, bubbleLayout);
+        Plotly.plot("bubble", trace2, bubbleLayout);
+        // Plotly.restyle("bubble", trace2, bubbleLayout);
     });
 };
-bubbleChart(940)
+// bubbleChart(940)
 
 //Get demographic info
 function getMetadata(sample) {
@@ -76,23 +78,24 @@ function getMetadata(sample) {
         var metadata = data.metadata;
         var sampleValues = metadata.filter(object => object.id == sample);
         var demographicInfo = sampleValues[0];
-        var panel = d3.select("sample-metadata");
-
-        Panel.html("");
+        var panel = d3.select("#sample-metadata");
+        panel.html("");
         Object.entries(demographicInfo).forEach(([key, value]) => {
-            Panel.append("h6").text(key.toUpperCase() + ': ' + value);
-        })
+            panel.append("h5").text(key.toUpperCase() + ': ' + value);
+            })
     });
 }
+// getMetadata(940)
 
-//Drop down selector
+//Drop down menu selector
 function init() {
-    var selector = d3.select("#selDataset");
+    var dropDownMenu = d3.select("#selDataset");
 
     d3.json("samples.json").then((data) => {
+        
         var idNames = data.names;
         idNames.forEach((sample) => {
-            selector
+            dropDownMenu
                 .append("option")
                 .text(sample)
                 .property("value", sample);        
@@ -105,5 +108,11 @@ function init() {
         getMetadata(firstName);
     });
 }
+
+function optionChanged(changeID) {
+    horizontalBarChart(changeID);
+    bubbleChart(changeID);
+    getMetadata(changeID);
+};
 
 init();
